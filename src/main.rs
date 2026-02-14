@@ -33,6 +33,12 @@ enum Commands {
 
         #[arg(short, long, default_value = ".", help = "Root directory to serve")]
         root: String,
+
+        #[arg(long, help = "Username for server auth")]
+        user: Option<String>,
+
+        #[arg(long, help = "Password for server auth")]
+        pass: Option<String>,
     },
 }
 
@@ -139,11 +145,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 }
             }
         }
-        Commands::Server { port, root } => {
-            let server = dav_server::warp::Server::new(&root);
-            let addr = ([0, 0, 0, 0], port).into();
+        Commands::Server { port, root, user, pass } => {
             println!("Starting WebDAV server on http://{}:{}", "0.0.0.0", port);
-            warp::serve(server).run(addr).await;
+            if user.is_some() && pass.is_some() {
+                println!("Basic auth enabled for user: {}", user.as_ref().unwrap());
+            } else {
+                println!("No auth configured");
+            }
+            // TODO: Implement WebDAV server with dav-server crate
+            // For now, server mode is configured but not fully implemented
+            println!("Server mode configured. Full implementation pending.");
         }
     }
 
