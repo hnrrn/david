@@ -1,3 +1,62 @@
+# David - WebDAV CLI Tool
+
+A fully functional WebDAV CLI tool written in Rust, following best practices. Interact with WebDAV servers as a client or start your own WebDAV server.
+
+## Features
+
+- **Client Mode**: List, download, upload, create directories, and delete files on remote WebDAV servers.
+- **Server Mode**: Start a local WebDAV server to serve files from a directory.
+- **Authentication**: Support for basic auth in client mode and server mode configuration.
+- **Cross-Platform**: Built with Rust for Windows, macOS, and Linux.
+
+## Installation
+
+1. Ensure you have Rust installed: https://rustup.rs/
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/yosebyte/david.git
+   cd david
+   ```
+3. Build the project:
+   ```bash
+   cargo build --release
+   ```
+4. The binary will be in `target/release/david`.
+
+## Usage
+
+### Client Mode
+
+#### List Directory
+```bash
+david client --url https://example.com/webdav/ list /path/to/dir
+```
+Lists the contents of the directory. Outputs the raw PROPFIND XML response.
+
+#### Download File
+```bash
+david client --url https://example.com/webdav/ --user myuser --pass mypass client get /remote/file.txt /local/file.txt
+```
+Downloads the remote file to the local path.
+
+#### Upload File
+```bash
+david client --url https://example.com/webdav/ --user myuser --pass mypass client put /local/file.txt /remote/file.txt
+```
+Uploads the local file to the remote path.
+
+#### Create Directory
+```bash
+david client --url https://example.com/webdav/ --user myuser --pass mypass client mkdir /remote/newdir
+```
+Creates a new directory at the specified path.
+
+#### Delete File/Directory
+```bash
+david client --url https://example.com/webdav/ --user myuser --pass mypass client delete /remote/file.txt
+```
+Deletes the file or directory at the specified path.
+
 ### Server Mode
 
 Start a WebDAV server serving files from the current directory on port 8080:
@@ -16,3 +75,17 @@ david server --user admin --pass secret
 ```
 
 Connect to the server using a WebDAV client or another instance of David in client mode.
+
+## Dependencies
+
+- `clap`: For CLI argument parsing.
+- `reqwest`: For HTTP requests (client mode).
+- `tokio`: For async runtime.
+
+## Contributing
+
+Contributions are welcome! Please submit issues and pull requests.
+
+## License
+
+MIT
