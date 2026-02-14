@@ -68,7 +68,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     match args.command {
         Commands::List { path } => {
             let url = format!("{}{}", base_url, path);
-            let mut req = client.request(Method::PROPFIND, &url).header("Depth", "1");
+            let mut req = client.request(Method::from_bytes(b"PROPFIND").unwrap(), &url).header("Depth", "1");
             if let Some((u, p)) = &auth {
                 req = req.basic_auth(u, Some(p));
             }
