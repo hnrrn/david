@@ -7,3 +7,10 @@ edition = "2021"
 clap = { version = "4.0", features = ["derive"] }
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
+
+[profile.release]
+strip = true          # 移除调试信息
+lto = true            # 链接时优化
+opt-level = "z"       # 专门优化体积
+panic = "abort"       # 减少标准库开销
+codegen-units = 1     # 提高压缩率
